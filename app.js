@@ -22,8 +22,8 @@ import mongoManager from './src/shared/db/mongodb/mongo-manager.js';
 /* ******************
  * MIDDLEWARE IMPORTS
  ********************/
-import { apiLogger } from './src/middleware/api-logger.middleware.js';
-import { authHeader } from './src/middleware/auth-headers.middleware.js';
+import { apiLogger } from './src/shared/middleware/api-logger.middleware.js';
+import { authHeader } from './src/shared/middleware/auth-header.middleware.js';
 
 
 /* *************
@@ -31,7 +31,6 @@ import { authHeader } from './src/middleware/auth-headers.middleware.js';
  ***************/
 // Public routes
 import healthRoutes from './src/routes/open/health.routes.js';
-import sessionRoutes from './src/routes/open/session.routes.js';
 // Protected routes
 import quoteRoutes from './src/routes/protected/quote.routes.js';
 import formRoutes from './src/routes/protected/form.routes.js';
@@ -82,7 +81,6 @@ protectedRouter.use(authHeader);
  ********************/
 // Open routes (no authentication required)
 healthRoutes.healthRoutesEndpoint(openRouter);
-sessionRoutes.sessionRoutesEndpoint(openRouter);
 // Protected routes (authentication required)
 quoteRoutes.quoteRoutesEndpoint(protectedRouter);
 formRoutes.formRoutesEndpoint(protectedRouter);
