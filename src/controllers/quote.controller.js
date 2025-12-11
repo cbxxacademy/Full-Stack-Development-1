@@ -1,7 +1,7 @@
 /* **********************
  * DATA & UTILITY IMPORTS
  ************************/
-import { calculResidentialElevators, calculTotalPricing } from "../shared/utilities/calculs.js";
+import { calculResidentialElevators, calculPricing } from "../shared/utilities/calculs.js";
 
 /* ***************
  * ROUTE HANDLERS
@@ -45,7 +45,7 @@ const calculResidential = (req, res) => {
         // Calculate number of elevators required
         const numElevators = calculResidentialElevators(numberOfApartments, numberOfFloors);
         // Calculate total pricing based on number of elevators and tier
-        const pricing = calculTotalPricing(numElevators, tier);
+        const pricing = calculPricing(numElevators, tier);
 
         res.status(200).json({
             "Number of Elevators": numElevators,
