@@ -17,16 +17,16 @@ import { ResponseUtil } from '../../src/shared/utilities/response-util.js'; // S
 /* *********************
  * TEST SUITE
  ***********************/
-describe('HealthController',()=>{
+describe('HealthController',() => {
   // Clean up all stubs after each test to avoid interference
   afterEach(() => {
     sinon.restore();
   });
 
-  describe('#helloWorld()',()=>{
-    it('respond with Hello World',(done)=>{
+  describe('#helloWorld()',() => {
+    it('respond with Hello World',(done) => {
       // Create a fake version of respondOk to intercept the call
-      sinon.stub(ResponseUtil,'respondOk').callsFake((res,data,message)=>{
+      sinon.stub(ResponseUtil,'respondOk').callsFake((res,data,message) => {
         // Verify the message is "Hello World"
         chai.assert.equal(message,'Hello World');
         // Signal that the async test is complete

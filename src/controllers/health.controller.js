@@ -3,11 +3,13 @@
  ************************/
 import { ResponseUtil } from '../shared/utilities/response-util.js';
 
+
 /* ********************
 * ENVIRONMENT VARIABLES
 ***********************/
 const PORT = process.env.PORT || 3004;
 const ENV = process.env.ENV_NAME || 'local';
+
 
 /* ***************
 * ROUTE HANDLERS
@@ -17,9 +19,9 @@ const ENV = process.env.ENV_NAME || 'local';
  * Simple endpoint that returns a greeting message
 */
 const hello = async (_req, res) => {
-  console.log(`Server listening on port ${PORT}`);
-  ResponseUtil.respondOk(res, null, 'Hello World')
-  // res.status(200).send('Hello World');
+    console.log(`Server listening on port ${PORT}`);
+    ResponseUtil.respondOk(res, null, 'Hello World')
+    // res.status(200).send('Hello World');
 };
 
 /**
@@ -37,20 +39,23 @@ const status = (_req, res) => {
 const error = (_req, res) => {
     try {
         // Intentionally throw an error to simulate server problems
-        throw new Error('Internal Server Error - Something went wrong');
+        throw new Error('Internal Server Error - This is a simulated error response for front-end development purposes.');
     } catch (error) {
-        res.status(500).json({
-            code: 500,
-            message: error.message,
-        });
+        ResponseUtil.respondError(
+            res,
+            500,
+            null,
+            error.message
+        );
     }
 };
+
 
 /* *******
  * EXPORTS
  *********/
-export default { 
-    hello, 
-    status, 
+export default {
+    hello,
+    status,
     error,
 };
