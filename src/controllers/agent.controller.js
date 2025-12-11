@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 /* **************************
  * SCHEMAS IMPORT
  ****************************/
-import agentSchema from '../shared/db/mongodb/schemas/agent.Schema.js';
+import agentSchema from '../shared/db/mongodb/schemas/agent.schema.js';
 
 /* **************
  * ROUTE HANDLERS

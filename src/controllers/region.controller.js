@@ -1,8 +1,9 @@
 /* **************************
  * INTERNAL MODULES / SCHEMAS
  ****************************/
-import regionSchema from '../shared/db/mongodb/schemas/region.Schema.js';
-import agentSchema from '../shared/db/mongodb/schemas/agent.Schema.js';
+import regionSchema from '../shared/db/mongodb/schemas/region.schema.js';
+import agentSchema from '../shared/db/mongodb/schemas/agent.schema.js';
+
 
 /* **************
  * ROUTE HANDLERS
@@ -61,6 +62,7 @@ const regionAvg = async (req, res) => {
         res.status(500).json({ error: 'Server error calculating region averages' });
     }
 };
+
 
 /**
  * POST - /region-create
@@ -158,6 +160,7 @@ const createRegion = async (req, res) => {
     }
 };
 
+
 /**
  * GET - /region
  * Returns region information with populated manager and top agents
@@ -207,6 +210,7 @@ const getRegion = async (req, res) => {
     }
 };
 
+
 /**
  * GET - /all-stars
  * Returns top sales agent from each region (excludes managers)
@@ -254,6 +258,7 @@ const getAllStars = async (_req, res) => {
         res.status(500).json({ error: 'Server error retrieving all-star agents' });
     }
 };
+
 
 /* *******
  * EXPORTS

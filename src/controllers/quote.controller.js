@@ -1,8 +1,7 @@
 /* **********************
  * DATA & UTILITY IMPORTS
  ************************/
-import { calculResidentialElevators } from "../shared/utilities/calcul-elevators.js";
-import { calculTotalPricing } from "../shared/utilities/calcul-pricing.js";
+import { calculResidentialElevators, calculTotalPricing } from "../shared/utilities/calculs.js";
 
 /* ***************
  * ROUTE HANDLERS
@@ -11,7 +10,7 @@ import { calculTotalPricing } from "../shared/utilities/calcul-pricing.js";
  * GET - /calc-residential
  * Calculates elevator quote for residential buildings
  */
-const calcResidential = (req, res) => {
+const calculResidential = (req, res) => {
     try {
         // Parse and validate query parameters
         const numberOfApartments = Number(Math.round(req.query.numberOfApartments));
@@ -46,11 +45,14 @@ const calcResidential = (req, res) => {
         // Calculate number of elevators required
         const numElevators = calculResidentialElevators(numberOfApartments, numberOfFloors);
         // Calculate total pricing based on number of elevators and tier
-        const quoteResult = calculTotalPricing(numElevators, tier);
+        const pricing = calculTotalPricing(numElevators, tier);
 
         res.status(200).json({
             "Number of Elevators": numElevators,
-            "Total Price": quoteResult
+            "Unit Price": pricing.unitPrice,
+            "Elevator Cost": pricing.elevatorCost,
+            "Installation Fee": pricing.installationFee,
+            "Total Cost": pricing.totalCost,
         });
     } catch (error) {
         console.error('CalcResidential error:', error.message);
@@ -62,5 +64,5 @@ const calcResidential = (req, res) => {
  * EXPORTS
  *********/
 export default { 
-    calcResidential,
+    calculResidential,
 };
