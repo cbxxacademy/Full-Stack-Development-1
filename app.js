@@ -9,6 +9,8 @@ dotenv.config();
  * CORE DEPENDENCIES
  *******************/
 import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
 
 /* ****************
@@ -20,17 +22,21 @@ import mongoManager from './src/shared/db/mongodb/mongo-manager.js';
 /* ******************
  * MIDDLEWARE IMPORTS
  ********************/
-import middleware from './src/shared/middleware/base-middleware.js';
+import { apiLogger } from './src/middleware/api-logger.middleware.js';
+import { authHeader } from './src/middleware/auth-headers.middleware.js';
 
 
 /* *************
  * ROUTE IMPORTS
  ***************/
-import healthRoutes from './src/routes/health.routes.js';
-import calculationRoutes from './src/routes/calculation.routes.js';
-import formRoutes from './src/routes/form.routes.js';
-import agentRoutes from './src/routes/agent.routes.js';
-import regionRoutes from './src/routes/region.routes.js';
+// Public routes
+import healthRoutes from './src/routes/open/health.routes.js';
+import sessionRoutes from './src/routes/open/session.routes.js';
+// Protected routes
+import quoteRoutes from './src/routes/protected/quote.routes.js';
+import formRoutes from './src/routes/protected/form.routes.js';
+import agentRoutes from './src/routes/protected/agent.routes.js';
+import regionRoutes from './src/routes/protected/region.routes.js';
 
 
 /* ********************
@@ -38,6 +44,8 @@ import regionRoutes from './src/routes/region.routes.js';
  **********************/
 const PORT = process.env.PORT || 3004;
 const app = express();
+const openRouter = express.Router();
+const protectedRouter = express.Router();
 
 
 /* ***********************
@@ -57,17 +65,36 @@ try {
  *************************/
 app.use(express.json());
 app.use(express.static('./src/public')) //serves our static genesis project
-app.use(middleware.logger);
+app.use(cors());
+app.use(cookieParser());
+app.use(apiLogger);
+
+
+/* **************************
+ * ROUTER-SPECIFIC MIDDLEWARE
+ ****************************/
+// Authentication middleware for protected routes only
+protectedRouter.use(authHeader);
 
 
 /* ******************
  * ROUTE REGISTRATION
  ********************/
-healthRoutes.healthRoutesEndpoint(app);
-calculationRoutes.calculationRoutesEndpoint(app);
-formRoutes.formsRoutesEndpoint(app);
-agentRoutes.agentRoutesEndpoint(app);
-regionRoutes.regionRoutesEndpoint(app);
+// Open routes (no authentication required)
+healthRoutes.healthRoutesEndpoint(openRouter);
+sessionRoutes.sessionRoutesEndpoint(openRouter);
+// Protected routes (authentication required)
+quoteRoutes.quoteRoutesEndpoint(protectedRouter);
+formRoutes.formRoutesEndpoint(protectedRouter);
+agentRoutes.agentRoutesEndpoint(protectedRouter);
+regionRoutes.regionRoutesEndpoint(protectedRouter);
+
+
+/* *************
+ * MOUNT ROUTERS
+ ***************/
+app.use('/', openRouter);
+app.use('/', protectedRouter);
 
 
 /* **************
