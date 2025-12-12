@@ -9,8 +9,6 @@ dotenv.config();
  * CORE DEPENDENCIES
  *******************/
 import express from "express";
-import cors from "cors";
-import cookieParser from "cookie-parser";
 
 
 /* ****************
@@ -63,9 +61,7 @@ try {
  * GLOBAL MIDDLEWARE SETUP
  *************************/
 app.use(express.json());
-app.use(express.static('./src/public')) //serves our static genesis project
-app.use(cors());
-app.use(cookieParser());
+app.use(express.static('./src/public'));
 app.use(apiLogger);
 
 
