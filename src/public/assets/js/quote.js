@@ -45,10 +45,10 @@ const getInputValue = (selector) => Number(document.querySelector(selector).valu
 
 // Get currently selected product tier from radio buttons
 const getSelectedTier = () => {
-  if (document.getElementById("tier-standard").checked) return "standard";
-  if (document.getElementById("tier-premium").checked) return "premium";
-  if (document.getElementById("tier-excelium").checked) return "excelium";
-  return null;
+    if (document.getElementById("tier-standard").checked) return "standard";
+    if (document.getElementById("tier-premium").checked) return "premium";
+    if (document.getElementById("tier-excelium").checked) return "excelium";
+    return null;
 };
 
 /* ************************
@@ -60,37 +60,37 @@ const getSelectedTier = () => {
  * @returns {number} Number of elevators needed
  */
 function calculateElevators(type) {
-  // Validate building type
-  if (!VALID_BUILDING_TYPES.includes(type)) return 0;
+    // Validate building type
+    if (!VALID_BUILDING_TYPES.includes(type)) return 0;
 
-  if (type === "residential") {
-    const floors = getInputValue("#div-floors input");
-    const apartments = getInputValue("#div-apartments input");
-    if (floors > 0 && apartments > 0) {
-      const apartmentsPerFloor = Math.ceil(apartments / floors);
-      const elevatorsPerBank = Math.ceil(apartmentsPerFloor / 6);
-      const elevatorBanks = Math.ceil(floors / 20);
-      return elevatorsPerBank * elevatorBanks;
+    if (type === "residential") {
+        const floors = getInputValue("#div-floors input");
+        const apartments = getInputValue("#div-apartments input");
+        if (floors > 0 && apartments > 0) {
+            const apartmentsPerFloor = Math.ceil(apartments / floors);
+            const elevatorsPerBank = Math.ceil(apartmentsPerFloor / 6);
+            const elevatorBanks = Math.ceil(floors / 20);
+            return elevatorsPerBank * elevatorBanks;
+        }
     }
-  } 
-  
-  if (type === "commercial") {
-    const floors = getInputValue("#div-floors input");
-    const occupancy = getInputValue("#div-occupancies input");
-    if (floors > 0 && occupancy > 0) {
-      const totalOccupants = occupancy * floors;
-      const elevatorsPerBank = Math.ceil(totalOccupants / 200);
-      const elevatorBanks = Math.ceil(floors / 10);
-      const freightElevators = Math.ceil(floors / 10);
-      return elevatorsPerBank * elevatorBanks + freightElevators;
+
+    if (type === "commercial") {
+        const floors = getInputValue("#div-floors input");
+        const occupancy = getInputValue("#div-occupancies input");
+        if (floors > 0 && occupancy > 0) {
+            const totalOccupants = occupancy * floors;
+            const elevatorsPerBank = Math.ceil(totalOccupants / 200);
+            const elevatorBanks = Math.ceil(floors / 10);
+            const freightElevators = Math.ceil(floors / 10);
+            return elevatorsPerBank * elevatorBanks + freightElevators;
+        }
     }
-  } 
-  
-  if (type === "industrial") {
-    return getInputValue("#div-elevators input");
-  }
-  
-  return 0;
+
+    if (type === "industrial") {
+        return getInputValue("#div-elevators input");
+    }
+
+    return 0;
 }
 
 /* ********************
@@ -101,42 +101,42 @@ function calculateElevators(type) {
  * Manages form visibility and clears previous inputs
  */
 function showFields() {
-  const type = buildingType.value;
-  
-  // Clear all inputs in the data sections
-  dataSections.querySelectorAll("input").forEach(input => 
-    input.type === "radio" ? input.checked = false : input.value = ""
-  );
-  
-  // Update card header background colors based on building type selection
-  const defaultColor = "#f8f9fa";
-  let selectedColor = defaultColor;
-  
-  // Determine the background color based on building type
-  if (type !== "---Select---" && VALID_BUILDING_TYPES.includes(type)) {
-    selectedColor = BACKGROUND_COLORS[type] || defaultColor;
-  }
-  
-  // Apply the color to all card headers
-  cardHeader.forEach(header => {
-    header.style.backgroundColor = selectedColor;
-  });
+    const type = buildingType.value;
+
+    // Clear all inputs in the data sections
+    dataSections.querySelectorAll("input").forEach(input =>
+        input.type === "radio" ? input.checked = false : input.value = ""
+    );
+
+    // Update card header background colors based on building type selection
+    const defaultColor = "#f8f9fa";
+    let selectedColor = defaultColor;
+
+    // Determine the background color based on building type
+    if (type !== "---Select---" && VALID_BUILDING_TYPES.includes(type)) {
+        selectedColor = BACKGROUND_COLORS[type] || defaultColor;
+    }
+
+    // Apply the color to all card headers
+    cardHeader.forEach(header => {
+        header.style.backgroundColor = selectedColor;
+    });
 
     // Hide sections if no valid type selected
-  if (!VALID_BUILDING_TYPES.includes(type)) return dataSections.style.display = "none";
-  
-  // Show data sections
-  dataSections.style.display = "block";
-  
-  // Hide all input field containers first
-  [divApartments, divFloors, divOccupancies, divElevators].forEach(container => 
-    container && (container.style.display = "none")
-  );
-  
-  // Show relevant fields based on building type
-  if (type === "residential") divApartments.style.display = divFloors.style.display = "block";
-  else if (type === "commercial") divFloors.style.display = divOccupancies.style.display = "block";
-  else if (type === "industrial") divElevators.style.display = "block";
+    if (!VALID_BUILDING_TYPES.includes(type)) return dataSections.style.display = "none";
+
+    // Show data sections
+    dataSections.style.display = "block";
+
+    // Hide all input field containers first
+    [divApartments, divFloors, divOccupancies, divElevators].forEach(container =>
+        container && (container.style.display = "none")
+    );
+
+    // Show relevant fields based on building type
+    if (type === "residential") divApartments.style.display = divFloors.style.display = "block";
+    else if (type === "commercial") divFloors.style.display = divOccupancies.style.display = "block";
+    else if (type === "industrial") divElevators.style.display = "block";
 }
 
 /**
@@ -144,22 +144,22 @@ function showFields() {
  * Updates all output fields with calculated values
  */
 function calculateAll() {
-  const type = buildingType.value;
-  const tier = getSelectedTier();
-  const elevators = calculateElevators(type);
+    const type = buildingType.value;
+    const tier = getSelectedTier();
+    const elevators = calculateElevators(type);
 
-  // Calculate pricing
-  const unitPrice = (tier && VALID_BUILDING_TYPES.includes(type)) ? ELEVATOR_PRICES[tier] : 0;
-  const unitTotal = elevators * unitPrice;
-  const installationFees = unitTotal * (INSTALLATION_FEES[tier] || 0);
-  const costTotal = unitTotal + installationFees;
+    // Calculate pricing
+    const unitPrice = (tier && VALID_BUILDING_TYPES.includes(type)) ? ELEVATOR_PRICES[tier] : 0;
+    const unitTotal = elevators * unitPrice;
+    const installationFees = unitTotal * (INSTALLATION_FEES[tier] || 0);
+    const costTotal = unitTotal + installationFees;
 
-  // Update all output fields
-  outputElevators.value = elevators;
-  outputUnitPrice.value = formatCurrency(unitPrice);
-  outputUnitTotal.value = formatCurrency(unitTotal);
-  outputFees.value = formatCurrency(installationFees);
-  outputCostTotal.value = formatCurrency(costTotal);
+    // Update all output fields
+    outputElevators.value = elevators;
+    outputUnitPrice.value = formatCurrency(unitPrice);
+    outputUnitTotal.value = formatCurrency(unitTotal);
+    outputFees.value = formatCurrency(installationFees);
+    outputCostTotal.value = formatCurrency(costTotal);
 }
 
 /* *********************
@@ -172,12 +172,12 @@ buildingType.addEventListener("change", showFields);
 dataSections.addEventListener("input", calculateAll);
 
 // Prevent negative numbers and decimals in number inputs
-dataSections.addEventListener("keydown", (e) => 
-  e.target.type === "number" && ["-", ".", "e", "E", "+"].includes(e.key) && e.preventDefault()
+dataSections.addEventListener("keydown", (e) =>
+    e.target.type === "number" && ["-", ".", "e", "E", "+"].includes(e.key) && e.preventDefault()
 );
 
 /* *****************
- * 8. INITIALIZATION
+ * INITIALIZATION
 ********************/
 // Hide data sections on page load
 dataSections.style.display = "none";
